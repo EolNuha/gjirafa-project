@@ -1,0 +1,91 @@
+@import "@/styles/setup/variables.scss";
+
+.profile-pic {
+	width: 50px;
+	height: 50px;
+	line-height: 50px;
+	border-radius: 50%;
+	background-color: $lightgray;
+	color: $lightgray;
+}
+input {
+	background-color: $lightgray;
+	border-radius: 30px;
+	width: 100%;
+	border: 0;
+	padding: 10px 25px;
+	margin: 1.5rem 0;
+	outline: none;
+}
+.fa-ellipsis-v {
+	font-size: 30px;
+	margin-left: 20px;
+	cursor: pointer;
+	&:hover {
+		opacity: 0.85;
+	}
+}
+.more-posts-btn {
+	background-color: $morePostsBtn;
+	color: $darkgray;
+	border: none;
+	outline: none;
+	padding: 1rem;
+	width: 50%;
+	border-radius: 12px;
+	cursor: pointer;
+	&:hover {
+		opacity: 0.85;
+	}
+	&:focus {
+		outline: none;
+	}
+}
+.more-comments-btn {
+	background-color: transparent;
+	color: $orange;
+	border: none;
+	outline: none;
+	border-radius: 12px;
+	cursor: pointer;
+	font-weight: 900;
+	&:hover {
+		opacity: 0.85;
+	}
+	&:focus {
+		outline: none;
+	}
+}
+.fa-picture-o {
+	color: $darkgray;
+	position: absolute;
+	right: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.post-link {
+    color: $black !important;
+	h5 {
+		color: $black !important;
+	}
+}
+.text-secondary a {
+    color: $darkgray !important;
+}
+.dropdown-item {
+	color: $darkgray !important;
+	&:focus {
+		color: $white !important;
+		background-color: $orange !important;
+	}
+}
+.comment {
+	margin: 1.5rem 0;
+	padding: 0 3rem;
+}
+@media (max-width: 768px) {
+	.comment {
+		margin: 1.5rem 0;
+		padding: 0 1.5rem;
+	}
+}
