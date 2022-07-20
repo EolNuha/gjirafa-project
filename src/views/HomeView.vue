@@ -4,14 +4,19 @@
       class="bg-white rounded px-5 my-5 d-flex align-items-center justify-content-between"
     >
       <div class="profile-pic mr-3"></div>
-      <div class="position-relative" style="width: 90% !important">
-        <input type="text" placeholder="Posto fotografi apo artikull" />
+      <div
+        class="position-relative"
+        style="width: 90% !important; cursor: pointer"
+      >
+        <div data-toggle="modal" data-target="#postModal" class="input">
+          Posto fotografi apo artikull
+        </div>
         <i class="fa fa-picture-o"></i>
       </div>
     </div>
     <div
       v-for="(post, index) in posts"
-      v-bind:key="post.id"
+      v-bind:key="post"
       class="bg-white rounded my-5"
     >
       <div class="d-flex justify-content-between align-items-center p-5">
@@ -66,7 +71,7 @@
         <hr />
         <div
           v-for="(comment, index) in post.comments"
-          v-bind:key="comment.id"
+          v-bind:key="comment"
           class="comment"
         >
           <div v-if="index < post.commentsSize">
@@ -88,16 +93,70 @@
         </div>
       </div>
     </div>
-    <div class="text-center mb-5" v-if="totalPosts > pageSize">
+    <div class="text-center mb-5" v-show="totalPosts > pageSize">
       <button class="more-posts-btn" @click="getPosts(pageSize + 3)">
-        {{ btnText }}
+        {{ loadPostsText }}
       </button>
+    </div>
+    <!-- Modal -->
+    <div
+      class="modal fade bd-example-modal-lg"
+      id="postModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="postModalLable"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="postModalLable">Posto artikull</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form @submit.prevent="createPost()">
+            <div class="modal-body">
+              <input
+                type="text"
+                placeholder="Titulli i artikullit"
+                v-model="postTitle"
+              />
+              <textarea
+                placeholder="Përmbajtja e artikullit"
+                cols="50"
+                rows="5"
+                class="my-2"
+                v-model="postBody"
+              ></textarea>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Mbyll
+              </button>
+              <button type="submit" class="btn btn-orange" ref="postBtn">
+                Posto
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import toastr from "toastr";
 
 export default {
   name: "HomeView",
@@ -106,7 +165,9 @@ export default {
       posts: [],
       totalPosts: 0,
       pageSize: 3,
-      btnText: "Shiko me shumë postime",
+      postTitle: "",
+      postBody: "",
+      loadPostsText: "Shiko më shumë postime",
     };
   },
   created() {
@@ -115,7 +176,7 @@ export default {
   },
   methods: {
     getPosts(pageSize) {
-      this.btnText = "Duke i ngarkuar...";
+      this.loadPostsText = "Duke i ngarkuar...";
       axios
         .get("https://jsonplaceholder.typicode.com/posts", {
           params: {
@@ -128,7 +189,7 @@ export default {
           this.pageSize = pageSize;
           this.getCommentsAndUsers();
           this.addCommentSize();
-          this.btnText = "Shiko me shumë postime";
+          this.loadPostsText = "Shiko më shumë postime";
         });
     },
     getCommentsAndUsers() {
@@ -160,6 +221,34 @@ export default {
     readMoreComments(postIndex) {
       var currCommentsSize = this.posts[postIndex]["commentsSize"];
       this.posts[postIndex]["commentsSize"] = currCommentsSize + 2;
+    },
+    createPost() {
+      this.$refs.postBtn.innerText = "Duke postuar...";
+      axios
+        .post(
+          "https://jsonplaceholder.typicode.com/posts",
+          {
+            title: this.postTitle,
+            body: this.postBody,
+            userId: 1,
+          },
+          {
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          this.postTitle = "";
+          this.postBody = "";
+          this.$refs.postBtn.innerText = "Posto";
+          toastr.success("Artikulli eshte postuar me sukses.", "Sukses!");
+        })
+        .catch((err) => {
+          console.log(err);
+          toastr.error("Ka ndodhur nje error, shiko consolen.", "Error!");
+        });
     },
   },
 };

@@ -6,6 +6,7 @@ import UserView from "../views/UserView.vue";
 const routes = [
   {
     path: "/",
+    alias: ["/home"],
     name: "home",
     meta: {
       title: "Home Page",
