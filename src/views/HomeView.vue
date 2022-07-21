@@ -125,6 +125,7 @@
               <input
                 type="text"
                 placeholder="Titulli i artikullit"
+                required
                 v-model="postTitle"
               />
               <textarea
@@ -132,6 +133,7 @@
                 cols="50"
                 rows="5"
                 class="my-2"
+                required
                 v-model="postBody"
               ></textarea>
             </div>
@@ -171,8 +173,8 @@ export default {
     };
   },
   created() {
-    this.getPosts(this.pageSize);
     this.getTotalPosts();
+    this.getPosts(this.pageSize);
   },
   methods: {
     getPosts(pageSize) {
@@ -213,14 +215,14 @@ export default {
     addCommentSize() {
       this.posts = this.posts.map((obj) => ({ ...obj, commentsSize: 2 }));
     },
+    readMoreComments(postIndex) {
+      var currCommentsSize = this.posts[postIndex]["commentsSize"];
+      this.posts[postIndex]["commentsSize"] = currCommentsSize + 2;
+    },
     getTotalPosts() {
       axios.get("https://jsonplaceholder.typicode.com/posts").then((res) => {
         this.totalPosts = res.data.length;
       });
-    },
-    readMoreComments(postIndex) {
-      var currCommentsSize = this.posts[postIndex]["commentsSize"];
-      this.posts[postIndex]["commentsSize"] = currCommentsSize + 2;
     },
     createPost() {
       this.$refs.postBtn.innerText = "Duke postuar...";

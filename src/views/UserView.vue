@@ -173,7 +173,7 @@
         role="tabpanel"
         aria-labelledby="galeria-tab"
       >
-        <h5 class="card-title">This is where the Galery would be!</h5>
+        <h5 class="card-title">Ketu eshte galeria!</h5>
       </div>
     </div>
   </div>
