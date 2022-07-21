@@ -1,7 +1,8 @@
 # Gjirafa Project
 
 ## Live Version
-For a live version of the project, visit [https://eolnuha.github.io/gjirafa-project/](https://eolnuha.github.io/gjirafa-project/).
+For a live version of the project, visit **[https://eolnuha.github.io/gjirafa-project/](https://eolnuha.github.io/gjirafa-project/)**.
+
 If you want to run the project on your local pc, follow the below instructions.
 
 ## Project setup
